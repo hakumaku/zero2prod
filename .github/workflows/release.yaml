@@ -1,0 +1,42 @@
+# .github/workflows/release.yml
+name: pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  CARGO_TERM_COLORS: always
+
+jobs:
+  prepare:
+    name: Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Linter
+        run: |
+          cargo fmt -- --check
+          cargo clippy -- -D warnings
+      - name: Compile
+        run: cargo build --verbose
+
+  test-debug:
+    name: Unit Test (Debug)
+    runs-on: ubuntu-latest
+    needs: prepare
+    steps:
+      - uses: actions/checkout@master
+      - name: Run tests
+        run: cargo test --verbose
+
+  test-release:
+    name: Unit Test (Release)
+    runs-on: ubuntu-latest
+    needs: prepare
+    steps:
+      - uses: actions/checkout@master
+      - name: Run tests
+        run: cargo test --release --verbose
