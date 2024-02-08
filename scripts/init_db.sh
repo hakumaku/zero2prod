@@ -36,7 +36,7 @@ if [[ -z "${SKIP_DOCKER}" ]]; then
     postgres -N 1000
 fi
 
-# Keep pinging Potgres until it's ready to accept commands
+# Keep pinging Postgres until it's ready to accept commands
 export PGPASSWORD="${DB_PASSWORD}"
 until psql -h "${DB_HOST}" -U "${DB_USER}" -p "${DB_PORT}" -d "postgres" -c '\q'; do
   echo >&2 "Postgres is still unavailable - sleeping"
