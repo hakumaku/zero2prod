@@ -1,9 +1,10 @@
 use std::net::TcpListener;
 
 use actix_web::{dev::Server, web, App, HttpServer};
+use sqlx::PgPool;
+use tracing_actix_web::TracingLogger;
 
 use crate::routes::{health, subscribe};
-use sqlx::PgPool;
 
 pub fn run(listener: TcpListener, db_pool: PgPool) -> Result<Server, std::io::Error> {
     // Wrap the connection in a smart pointer
@@ -11,6 +12,7 @@ pub fn run(listener: TcpListener, db_pool: PgPool) -> Result<Server, std::io::Er
     // Captuer `connection` from the surrounding environment
     let server = HttpServer::new(move || {
         App::new()
+            .wrap(TracingLogger::default())
             .route("/health_check", web::get().to(health))
             .route("/subscriptions", web::post().to(subscribe))
             // Get a pointer copy and attach it to the application state
