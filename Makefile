@@ -1,4 +1,4 @@
-.PHONY: format build test coverage run
+.PHONY: format build test coverage run docker
 
 format:
 	@cargo fmt
@@ -17,3 +17,6 @@ coverage:
 
 run:
 	@cargo run
+
+docker:
+	@docker build --tag zero2prod --file Dockerfile .
