@@ -9,7 +9,7 @@ use crate::routes::{health, subscribe};
 pub fn run(listener: TcpListener, db_pool: PgPool) -> Result<Server, std::io::Error> {
     // Wrap the connection in a smart pointer
     let db_pool = web::Data::new(db_pool);
-    // Captuer `connection` from the surrounding environment
+    // Capture `connection` from the surrounding environment
     let server = HttpServer::new(move || {
         App::new()
             .wrap(TracingLogger::default())
