@@ -105,11 +105,13 @@ jobs:
         run: ${{ matrix.command }}
 
   build-image:
-    if: github.event.pull_request.merged == true
+    if: github.ref == 'refs/heads/main'
     permissions:
       contents: read
       packages: write
     runs-on: ubuntu-latest
+
+    needs: [test]
 
     steps:
       - name: Checkout repository
