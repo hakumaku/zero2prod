@@ -1,4 +1,4 @@
-.PHONY: format build test coverage run docker
+.PHONY: format build test coverage run docker migrate
 
 format:
 	@cargo fmt
@@ -20,3 +20,6 @@ run:
 
 docker:
 	@docker build --tag zero2prod --file Dockerfile .
+
+migrate:
+	@sqlx migrate run
