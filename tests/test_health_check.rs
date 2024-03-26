@@ -1,7 +1,6 @@
 use std::net::TcpListener;
 use std::sync::Once;
 
-use secrecy::ExposeSecret;
 use sqlx::{Connection, Executor, PgConnection, PgPool};
 use uuid::Uuid;
 
@@ -18,13 +17,13 @@ pub struct TestApp {
 }
 
 pub async fn configure_database(config: &DatabaseSettings) -> PgPool {
-    let mut conn = PgConnection::connect(config.connection_string_without_db().expose_secret())
+    let mut conn = PgConnection::connect_with(&config.without_db())
         .await
         .expect("Failed to connect to Postgres");
     conn.execute(format!(r#"CREATE DATABASE "{}";"#, config.database_name).as_str())
         .await
         .expect("Failed to create database");
-    let conn_pool = PgPool::connect(config.connection_string().expose_secret())
+    let conn_pool = PgPool::connect(config.with_db())
         .await
         .expect("Failed to connect to Postgres");
     sqlx::migrate!("./migrations")
