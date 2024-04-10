@@ -82,6 +82,16 @@ jobs:
           POSTGRES_DB: postgres
         ports:
           - 5433:5432
+      redis:
+        image: redis
+        # Set health checks to wait until redis has started
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
     steps:
       - uses: actions/checkout@master
       - uses: dtolnay/rust-toolchain@stable
@@ -103,6 +113,9 @@ jobs:
           cargo sqlx prepare --workspace --check
       - name: Run tests
         run: ${{ matrix.command }}
+        env:
+          REDIS_HOST: localhost
+          REDIS_PORT: 6379
 
   build-image:
     if: github.ref == 'refs/heads/main'
