@@ -1,8 +1,7 @@
 use std::future::{ready, Ready};
 
 use actix_session::{Session, SessionExt, SessionGetError, SessionInsertError};
-use actix_web::dev::Payload;
-use actix_web::{FromRequest, HttpRequest};
+use actix_web::{dev::Payload, FromRequest, HttpRequest};
 use uuid::Uuid;
 
 pub struct TypedSession(Session);
@@ -31,7 +30,6 @@ impl FromRequest for TypedSession {
     // This is a complicated way of saying
     // "We return the same error returned by the implementation of `FromRequest` for `Session`"
     type Error = <Session as FromRequest>::Error;
-
     type Future = Ready<Result<TypedSession, Self::Error>>;
 
     fn from_request(req: &HttpRequest, _: &mut Payload) -> Self::Future {

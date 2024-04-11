@@ -1,23 +1,30 @@
-use actix_session::storage::RedisSessionStore;
-use actix_session::SessionMiddleware;
 use std::net::TcpListener;
 
-use crate::authentication::reject_anonymous_users;
-use actix_web::cookie::Key;
-use actix_web::{dev::Server, web, web::Data, App, HttpServer};
-use actix_web_flash_messages::storage::CookieMessageStore;
-use actix_web_flash_messages::FlashMessagesFramework;
+use actix_session::{storage::RedisSessionStore, SessionMiddleware};
+use actix_web::{cookie::Key, dev::Server, web, web::Data, App, HttpServer};
+use actix_web_flash_messages::{storage::CookieMessageStore, FlashMessagesFramework};
 use actix_web_lab::middleware::from_fn;
 use secrecy::{ExposeSecret, Secret};
-use sqlx::postgres::PgPoolOptions;
-use sqlx::PgPool;
+use sqlx::{postgres::PgPoolOptions, PgPool};
 use tracing_actix_web::TracingLogger;
 
-use crate::configuration::{DatabaseSettings, Settings};
-use crate::email_client::EmailClient;
-use crate::routes::{
-    admin_dashboard, change_password, change_password_form, confirm, health, home, log_out, login,
-    login_form, publish_newsletter, subscribe,
+use crate::{
+    authentication::reject_anonymous_users,
+    configuration::{DatabaseSettings, Settings},
+    email_client::EmailClient,
+    routes::{
+        admin_dashboard,
+        change_password,
+        change_password_form,
+        confirm,
+        health,
+        home,
+        log_out,
+        login,
+        login_form,
+        publish_newsletter,
+        subscribe,
+    },
 };
 
 pub struct Application {

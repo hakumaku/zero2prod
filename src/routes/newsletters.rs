@@ -2,19 +2,26 @@ use std::fmt::{Debug, Formatter};
 
 use actix_web::{
     body::BoxBody,
-    http::header::{HeaderMap, HeaderValue, WWW_AUTHENTICATE},
-    http::StatusCode,
-    web, HttpRequest, HttpResponse, ResponseError,
+    http::{
+        header::{HeaderMap, HeaderValue, WWW_AUTHENTICATE},
+        StatusCode,
+    },
+    web,
+    HttpRequest,
+    HttpResponse,
+    ResponseError,
 };
 use anyhow::Context;
 use base64::Engine;
 use secrecy::Secret;
 use sqlx::PgPool;
 
-use crate::authentication::{validate_credentials, AuthError, Credentials};
-use crate::domain::SubscriberEmail;
-use crate::email_client::EmailClient;
-use crate::routes::error_chain_fmt;
+use crate::{
+    authentication::{validate_credentials, AuthError, Credentials},
+    domain::SubscriberEmail,
+    email_client::EmailClient,
+    routes::error_chain_fmt,
+};
 
 #[derive(serde::Deserialize)]
 pub struct Content {

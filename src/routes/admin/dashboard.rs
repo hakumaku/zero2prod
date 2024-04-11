@@ -1,11 +1,13 @@
-use actix_web::http::header::{ContentType, LOCATION};
-use actix_web::{web, HttpResponse};
+use actix_web::{
+    http::header::{ContentType, LOCATION},
+    web,
+    HttpResponse,
+};
 use anyhow::Context;
 use sqlx::PgPool;
 use uuid::Uuid;
 
-use crate::session_state::TypedSession;
-use crate::utils;
+use crate::{session_state::TypedSession, utils};
 
 #[tracing::instrument(name = "Ger username", skip(pool))]
 pub async fn get_username(user_id: Uuid, pool: &PgPool) -> Result<String, anyhow::Error> {

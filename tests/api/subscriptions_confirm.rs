@@ -1,6 +1,7 @@
 use wiremock::{
     matchers::{method, path},
-    Mock, ResponseTemplate,
+    Mock,
+    ResponseTemplate,
 };
 
 use crate::helpers::spawn_app;
