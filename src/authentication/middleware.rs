@@ -1,14 +1,22 @@
-use actix_web::body::MessageBody;
-use actix_web::dev::{ServiceRequest, ServiceResponse};
-use actix_web::error::InternalError;
-use actix_web::{FromRequest, HttpMessage};
+use std::{
+    fmt::{Display, Formatter},
+    ops::Deref,
+};
+
+use actix_web::{
+    body::MessageBody,
+    dev::{ServiceRequest, ServiceResponse},
+    error::InternalError,
+    FromRequest,
+    HttpMessage,
+};
 use actix_web_lab::middleware::Next;
-use std::fmt::{Display, Formatter};
-use std::ops::Deref;
 use uuid::Uuid;
 
-use crate::session_state::TypedSession;
-use crate::utils::{e500, see_other};
+use crate::{
+    session_state::TypedSession,
+    utils::{e500, see_other},
+};
 
 #[derive(Copy, Clone, Debug)]
 pub struct UserId(Uuid);

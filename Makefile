@@ -1,7 +1,7 @@
 .PHONY: format build test coverage run docker migrate
 
 format:
-	@cargo fmt
+	@cargo +nightly fmt
 
 lint:
 	@cargo clippy

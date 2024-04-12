@@ -1,5 +1,10 @@
 use std::fmt::Debug;
-use wiremock::{matchers::method, matchers::path, Mock, ResponseTemplate};
+
+use wiremock::{
+    matchers::{method, path},
+    Mock,
+    ResponseTemplate,
+};
 
 use crate::helpers::spawn_app;
 

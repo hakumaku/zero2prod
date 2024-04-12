@@ -1,4 +1,5 @@
 use std::fmt::{Display, Formatter};
+
 use validator::ValidateEmail;
 
 #[derive(Debug)]
@@ -28,11 +29,11 @@ impl AsRef<str> for SubscriberEmail {
 
 #[cfg(test)]
 mod tests {
-    use super::SubscriberEmail;
     use claims::assert_err;
-    use fake::faker::internet::en::SafeEmail;
-    use fake::Fake;
+    use fake::{faker::internet::en::SafeEmail, Fake};
     use rand::{rngs::StdRng, SeedableRng};
+
+    use super::SubscriberEmail;
 
     #[derive(Debug, Clone)]
     struct ValidEmailFixture(pub String);
