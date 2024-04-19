@@ -48,19 +48,8 @@ impl Application {
     pub async fn build(config: Settings) -> Result<Self, anyhow::Error> {
         // database
         let connection_pool = get_connection_pool(&config.database);
-
         // email client
-        let sender_email = config
-            .email_client
-            .sender()
-            .expect("Invalid sender email address.");
-        let timeout = config.email_client.timeout();
-        let email_client = EmailClient::new(
-            config.email_client.base_url,
-            sender_email,
-            config.email_client.authorization_token,
-            timeout,
-        );
+        let email_client = config.email_client.client();
 
         // server
         let address = format!(

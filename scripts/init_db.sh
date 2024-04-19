@@ -21,7 +21,7 @@ DB_PASSWORD=${POSTGRES_PASSWORD:=password}
 # Check if a custom database name has been set, otherwise default to 'newsletter'
 DB_NAME=${POSTGRES_NAME:=newsletter}
 # Check if a custom port has been set, otherwise default to '5432'
-DB_PORT=${POSTGRES_PORT:=5433}
+DB_PORT=${POSTGRES_PORT:=5432}
 # Check if a custom host has been set, otherwise default to 'locahost'
 DB_HOST=${POSTGRES_HOST:=localhost}
 
@@ -31,9 +31,10 @@ if [[ -z "${SKIP_DOCKER}" ]]; then
     -e POSTGRES_USER=${DB_USER} \
     -e POSTGRES_PASSWORD=${DB_PASSWORD} \
     -e POSTGRES_NAME=${DB_NAME} \
-    -p "${DB_PORT}":5432 \
+    --network=host \
+    --rm \
     -d postgres \
-    postgres -N 1000
+    postgres -N 10000
 fi
 
 # Keep pinging Postgres until it's ready to accept commands

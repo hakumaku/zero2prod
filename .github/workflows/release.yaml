@@ -40,7 +40,7 @@ jobs:
           POSTGRES_PASSWORD: password
           POSTGRES_DB: postgres
         ports:
-          - 5433:5432
+          - 5432:5432
     steps:
       - uses: actions/checkout@master
       - uses: dtolnay/rust-toolchain@stable
@@ -81,7 +81,7 @@ jobs:
           POSTGRES_PASSWORD: password
           POSTGRES_DB: postgres
         ports:
-          - 5433:5432
+          - 5432:5432
       redis:
         image: redis
         # Set health checks to wait until redis has started
